@@ -46,15 +46,14 @@ Slack bot that automates security incident triage and initial response coordinat
 
 ## 🏗️ Technical Architecture
 
-```
-Slack Event
-     │
-     ▼
-AWS Lambda (bot.py)
-     │
-     ├── Slack API ──────────── Create channel, assign roles, post runbook
-     ├── DynamoDB ───────────── Store/retrieve incident state & timeline
-     └── PagerDuty API ──────── Fetch on-call schedule for role assignment
+```mermaid
+graph TB
+    Slack[Slack Event / Slash Command]
+    Slack --> Lambda[AWS Lambda\nbot.py]
+
+    Lambda --> SlackAPI[Slack API\nCreate channel\nAssign roles\nPost runbook]
+    Lambda --> DynamoDB[DynamoDB\nIncident state\nTimeline logging]
+    Lambda --> PagerDuty[PagerDuty API\nOn-call schedule]
 ```
 
 - **Python** — Core bot logic running on AWS Lambda
